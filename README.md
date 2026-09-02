@@ -2,9 +2,9 @@
 
 从零实现一个最小、可观测、可训练的 ReAct Agent，并逐步扩展到 trajectory search 和 Agent RL。
 
-> 当前实现进度：**约 4%**
+> 当前实现进度：**约 6%**
 >
-> 已完成基础数据结构和模型输出协议，正在实现 action parser。尚未进入工具和 Agent loop 阶段。
+> 已完成基础数据结构、模型输出协议和 action parser。尚未进入工具和 Agent loop 阶段。
 
 ## 项目目标
 
@@ -42,7 +42,7 @@ task
 - [ ] 定义 Message/history 数据结构
 - [x] 定义 Thought/Action/Observation 协议
 - [ ] 定义严格的 JSON action schema
-- [ ] 实现 action parser（进行中：Notebook 已验证，源文件尚需修复）
+- [x] 实现 action parser
 - [ ] 实现参数与工具名校验
 - [ ] 区分模型 action 和环境 observation
 
@@ -185,7 +185,7 @@ AgenticRL/
 - 设计计划：已记录，不计入实现进度
 - 基础数据结构：已完成
 - 输出协议：已完成
-- Action parser：进行中
+- Action parser：已完成并通过示例验证
 - Agent loop：未开始
 - 工具：未开始
 - Verifier：未开始
@@ -194,4 +194,4 @@ AgenticRL/
 - 训练 mask：未开始
 - 测试：未开始
 
-**实现进度：约 4%**
+**实现进度：约 6%**
