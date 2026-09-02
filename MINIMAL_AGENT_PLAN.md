@@ -68,18 +68,13 @@ $$
 环境将原始工具结果、错误或超时信息转换成下一条 Observation：
 
 $$
-o_{t+1}
-=
-\operatorname{Serialize}(v_t,\text{status}_t,\text{metadata}_t)
+o_{t+1} = \operatorname{Serialize}(v_t,\text{status}_t,\text{metadata}_t)
 $$
 
 然后更新上下文：
 
 $$
-h_{t+1}
-=
-h_t \oplus
-[z_t,a_t,o_{t+1}]
+h_{t+1} = h_t \oplus[z_t,a_t,o_{t+1}]
 $$
   
 
