@@ -174,9 +174,9 @@ AgenticRL/
 ## 必读材料
 
 - [x] ReAct: Synergizing Reasoning and Acting
-- [ ] Reflexion
-- [ ] Toolformer
-- [ ] Tree of Thoughts
+- [x] Reflexion
+- [x] Toolformer
+- [x] Tree of Thoughts
 
 ## 当前状态
 
