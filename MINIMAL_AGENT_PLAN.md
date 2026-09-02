@@ -50,32 +50,60 @@ Thought → Action → Observation → Thought → ... → Final
 - 工具结果为什么必须作为新的 observation 返回模型？
 - trajectory 中哪些内容由 policy 生成，哪些内容来自 environment？
 
-在第 \(t\) 轮，模型根据历史 \(h_t\) 生成 Thought 和 Action：
+按照 ReAct 原论文的记号，在时刻 \(t\)，Agent 接收环境给出的
+observation \(o_t \in \mathcal{O}\)，并根据当前 context \(c_t\)
+选择 action：
 
 $$
-(z_t, a_t) \sim \pi_\theta(\cdot \mid h_t)
+a_t \sim \pi_\theta(a_t \mid c_t)
 $$
 
-其中 \(z_t\) 是 Thought，\(a_t=(n_t,x_t)\) 表示调用工具
-\(n_t\) 及其参数 \(x_t\)。
-
-工具执行结果定义为：
+其中 context 是此前 action 与 observation 的完整序列：
 
 $$
-v_t = \mathcal{T}_{n_t}(x_t)
+c_t=(o_1,a_1,\ldots,o_{t-1},a_{t-1},o_t)
 $$
 
-环境将原始工具结果、错误或超时信息转换成下一条 Observation：
+ReAct 将原本的环境 action space \(\mathcal{A}\) 扩展为：
 
 $$
-o_{t+1} = \mathrm{Serialize}(v_t,\mathrm{status}_t,\mathrm{metadata}_t)
+\hat{\mathcal{A}}=\mathcal{A}\cup\mathcal{L}
 $$
 
-然后更新上下文：
+其中 \(\mathcal{L}\) 是 language space。当
+\(\hat{a}_t\in\mathcal{L}\) 时，它是 Thought 或 reasoning trace。
+Thought 由 policy 生成，但不作用于外部环境，因此不会触发新的
+observation，只更新 context：
 
 $$
-h_{t+1} = h_t \oplus[z_t,a_t,o_{t+1}]
+c_{t+1}=(c_t,\hat{a}_t),
+\qquad \hat{a}_t\in\mathcal{L}
 $$
+
+当 \(a_t=(n_t,x_t)\in\mathcal{A}\) 时，它表示调用工具 \(n_t\)
+及其参数 \(x_t\)。原始工具结果定义为：
+
+$$
+v_t=\mathcal{T}_{n_t}(x_t)
+$$
+
+环境将原始工具结果、错误或超时信息转换为下一条 observation：
+
+$$
+o_{t+1}=\mathrm{Serialize}
+\left(v_t,\mathrm{status}_t,\mathrm{metadata}_t\right)
+$$
+
+执行环境 action 后，context 更新为：
+
+$$
+c_{t+1}=(c_t,a_t,o_{t+1}),
+\qquad a_t\in\mathcal{A}
+$$
+
+因此，Thought 和工具 Action 都来自 policy；工具结果与
+Observation 来自 environment。工程实现可以在同一次模型输出中
+序列化 Thought 和 Action，但不能因此把 Thought 标记为 environment token。
   
 
 ### Reflexion
