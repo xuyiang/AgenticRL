@@ -68,7 +68,7 @@ $$
 环境将原始工具结果、错误或超时信息转换成下一条 Observation：
 
 $$
-o_{t+1} = \operatorname{Serialize}(v_t,\text{status}_t,\text{metadata}_t)
+o_{t+1} = \mathrm{Serialize}(v_t,\mathrm{status}_t,\mathrm{metadata}_t)
 $$
 
 然后更新上下文：
