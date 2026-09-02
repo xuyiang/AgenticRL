@@ -50,6 +50,39 @@ Thought → Action → Observation → Thought → ... → Final
 - 工具结果为什么必须作为新的 observation 返回模型？
 - trajectory 中哪些内容由 policy 生成，哪些内容来自 environment？
 
+在第 \(t\) 轮，模型根据历史 \(h_t\) 生成 Thought 和 Action：
+
+$$
+(z_t, a_t) \sim \pi_\theta(\cdot \mid h_t)
+$$
+
+其中 \(z_t\) 是 Thought，\(a_t=(n_t,x_t)\) 表示调用工具
+\(n_t\) 及其参数 \(x_t\)。
+
+工具执行结果定义为：
+
+$$
+v_t = \mathcal{T}_{n_t}(x_t)
+$$
+
+环境将原始工具结果、错误或超时信息转换成下一条 Observation：
+
+$$
+o_{t+1}
+=
+\operatorname{Serialize}(v_t,\text{status}_t,\text{metadata}_t)
+$$
+
+然后更新上下文：
+
+$$
+h_{t+1}
+=
+h_t \oplus
+[z_t,a_t,o_{t+1}]
+$$
+  
+
 ### Reflexion
 
 重点理解：
